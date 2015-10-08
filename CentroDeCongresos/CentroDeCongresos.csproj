@@ -67,8 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="home.html" />
-    <Content Include="login.html" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\angular\angular-fullpage.min.js" />
     <Content Include="Scripts\angular\angular-route.min.js" />
     <Content Include="Scripts\jquery\jquery-2.1.4.min.map" />
     <Content Include="Scripts\angular\angular-route.min.js.map" />
@@ -86,7 +86,6 @@
     <Content Include="Css\jquery.fullpage.min.css" />
     <Content Include="Css\style.css" />
     <Content Include="index.html" />
-    <Content Include="Media\imgs\bg1.png" />
     <Content Include="Scripts\angular\angular-animate.min.js" />
     <Content Include="Scripts\angular\angular-aria.min.js" />
     <Content Include="Scripts\angular\angular-material.min.js" />
@@ -102,13 +101,16 @@
     <Content Include="Scripts\jquery\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery\jquery.fullpage.js" />
     <Content Include="Scripts\jquery\jquery.fullpage.min.js" />
+    <Content Include="Scripts\app\login.js" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery\jquery.fullpage.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Media\imgs\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

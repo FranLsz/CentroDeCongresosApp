@@ -1,7 +1,7 @@
 ﻿/* ANIMATIONS */
 @-webkit-keyframes top40-0 {
     from {
-        left: -100px;
+        left: -60px;
         opacity: 0;
     }
 
@@ -13,7 +13,7 @@
 
 @keyframes top40-0 {
     from {
-        left: -100px;
+        left: -60px;
         opacity: 0;
     }
 

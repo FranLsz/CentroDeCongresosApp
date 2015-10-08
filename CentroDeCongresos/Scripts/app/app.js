@@ -1,4 +1,8 @@
-﻿//Inicia la libreria FULLPAGE.JS cuando cargue el documento
+﻿if (!localStorage.getItem("empresa")) {
+    location.replace("http://localhost:51260");
+}
+
+//Inicia la libreria FULLPAGE.JS cuando cargue el documento
 angular.element(document).ready(function () {
     $('#fullpage').fullpage({
         //Navigation
@@ -52,34 +56,12 @@ angular.element(document).ready(function () {
         afterSlideLoad: function (anchorLink, index, slideAnchor, slideIndex) { },
         onSlideLeave: function (anchorLink, index, slideIndex, direction, nextSlideIndex) { }
     });
-
-
-
-
 });
-
 
 var app = angular.module("app", ["ngMaterial", "ui.tree"]);
 
 //MAIN CONTROLLER
 app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", function ($scope, $mdDialog, $timeout, $mdToast) {
-
-    $scope.showAlert = function (ev) {
-           $mdDialog.show(
-             $mdDialog.alert()
-               .clickOutsideToClose(false)
-               .title('Nombre de la empresa')
-               .content("<input type='text'>")
-               .ariaLabel('NombreEmpresa')
-               .ok('Aceptar')
-               .targetEvent(ev)
-           );
-    };
-
-
-    //$timeout(function () { $scope.showAlert(); }, 100);
-    
-
 
 }]);
 

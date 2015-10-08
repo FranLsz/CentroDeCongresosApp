@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="login">
 <head>
 
     <title>Centro de congresos</title>
@@ -14,34 +14,46 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--CSS-->
-    <link href="Css/jquery.fullpage.min.css" rel="stylesheet" />
     <link href="Css/angular-material.min.css" rel="stylesheet" />
-    <link href="Css/angular-ui-tree.min.css" rel="stylesheet" />
     <link href="Css/style.css" rel="stylesheet" />
 
     <!--JS && JQUERY-->
     <script src="Scripts/jquery/jquery-2.1.4.min.js"></script>
-    <script src="Scripts/jquery/jquery.fullpage.min.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
     <!--ANGULARJS-->
     <script src="Scripts/angular/angular.min.js"></script>
-    <script src="Scripts/angular/angular-route.min.js"></script>
     <script src="Scripts/angular/angular-animate.min.js"></script>
     <script src="Scripts/angular/angular-aria.min.js"></script>
     <script src="Scripts/angular/angular-material.min.js"></script>
-    <script src="Scripts/angular/angular-ui-tree.min.js"></script>
-
+    <style>
+        body {
+            background-color: rgb(153, 255, 204);
+        }
+    </style>
 </head>
-<body ng-controller="mainCTRL" layout="column">
+<body ng-controller="loginCTRL" layout="column">
+    <div style="height: 100%" layout="row" layout-align="center center">
 
+        <md-card flex="33" class="animated">
+            <md-card-content>
+                <h2 class="md-title">Nombre de la empresa</h2>
+                <div>
+                    <form name="loginForm" novalidate="novalidate" ng-submit="submit()">
+                        <md-input-container>
+                            <label>Nombre</label>
+                            <input ng-model="datos.nombre" required>
+                        </md-input-container>
+                        <div layout="row" layout-align="end">
+                            <md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid">Entrar</md-button>
+                        </div>
+                    </form>
 
-    <ng-view>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
 
-
-    </ng-view>
-
-
-    <script src="Scripts/app/app.js"></script>
+    <script src="Scripts/app/login.js"></script>
 </body>
+
 </html>

@@ -1,109 +1,130 @@
-﻿<div id="fullpage">
-    <!--//////////////DONDE ESTAMOS/////////////////////////////////////////////////////////////////////////////////////////-->
-    <div class="section" id="dondeEstamos" layout="column" ng-controller="localizacionCTRL">
-        <!--TITULO-->
-        <div layout="column" layout-align="center center">
-            <h1 class="md-display-4 md-padding ">Centro de congresos</h1>
-        </div>
-        <div layout="row" layout-sm="column" class="md-padding" layout-align="space-around center">
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Centro de congresos</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            <!--MAPA 1-->
-            <md-card flex-gt-sm="50" flex-gt-md="40" flex-gt-lg="35">
-                <div id="gmap_canvas1" style="height: 350px; width: 100%;"></div>
-                <md-card-content>
-                    <h2 class="md-title">Nuestra localización</h2>
-                </md-card-content>
-            </md-card>
+    <!--FONTS-->
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
-            <!--MAPA 2-->
-            <md-card flex-gt-sm="50" flex-gt-md="40" flex-gt-lg="35">
-                <div id="gmap_canvas2" style="height: 350px; width: 100%;"></div>
-                <md-card-content>
-                    <h2 class="md-title">Su localización</h2>
-                </md-card-content>
-            </md-card>
+    <!--ICONS-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-        </div>
-    </div>
+    <!--CSS-->
+    <link href="Css/jquery.fullpage.min.css" rel="stylesheet" />
+    <link href="Css/angular-material.min.css" rel="stylesheet" />
+    <link href="Css/angular-ui-tree.min.css" rel="stylesheet" />
+    <link href="Css/style.css" rel="stylesheet" />
 
-    <!--//////////////MAPA DE LA SALA////////////////////////////////////////////////////////////////////////////////////////-->
-    <div class="section" id="mapaSala" layout="column" layout-align="center center" ng-controller="mapaSalaCTRL">
-        <md-card-content class="md-padding" layout="row" layout-align="center center">
-            <md-card flex>
-                <canvas id="canvasMapaSala" width="700" height="600"></canvas>
-                <md-card-content>
-                    <h2 class="md-title">Mapa de la sala</h2>
-                </md-card-content>
-            </md-card>
-        </md-card-content>
-    </div>
+    <!--JS && JQUERY-->
+    <script src="Scripts/jquery/jquery-2.1.4.min.js"></script>
+    <script src="Scripts/jquery/jquery.fullpage.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-    <!--//////////////TUS CONFERENCIAS////////////////////////////////////////////////////////////////////////////////////////-->
-    <div class="section unselect" id="tusConferencias" ng-controller="conferenciasCTRL " layout="row" layout-align="space-around center">
+    <!--ANGULARJS-->
+    <script src="Scripts/angular/angular.min.js"></script>
+    <script src="Scripts/angular/angular-route.min.js"></script>
+    <script src="Scripts/angular/angular-animate.min.js"></script>
+    <script src="Scripts/angular/angular-aria.min.js"></script>
+    <script src="Scripts/angular/angular-material.min.js"></script>
+    <script src="Scripts/angular/angular-ui-tree.min.js"></script>
+    <script src="Scripts/angular/angular-fullpage.min.js"></script>
 
-        <!--CONFERENCIAS-->
-        <div layout="column">
-            <div class="md-padding">
-                <h1 class="md-display-3">Conferencias</h1>
+    <script src="Scripts/app/app.js"></script>
+</head>
+<body ng-controller="mainCTRL" layout="column">
+    <div id="fullpage">
+        <!--//////////////DONDE ESTAMOS/////////////////////////////////////////////////////////////////////////////////////////-->
+        <div class="section" id="dondeEstamos" layout="column" ng-controller="localizacionCTRL">
+            <!--TITULO-->
+            <div layout="column" layout-align="center center">
+                <h1 class="md-display-4 md-padding ">Centro de congresos</h1>
             </div>
-            <div ui-tree class="md-padding">
-                <ol ui-tree-nodes="" ng-model="conferencias" class="lista">
-                    <li ng-repeat="c in conferencias" ui-tree-node class="listaNodo" layout="column" layout-align="center center">
-                        <div>
-                            <span class="nodoNombre">{{c.nombre}}</span><span class="nodoTipo">{{c.tipo}}</span>  <span class="nodoFecha">{{c.fecha}}</span>
-                        </div>
-                    </li>
-                </ol>
-            </div>
-        </div>
+            <div layout="row" layout-sm="column" class="md-padding" layout-align="space-around center">
 
-        <!--MIS CONFERENCIAS-->
-        <div layout="column">
-            <div class="md-padding">
-                <h1 class="md-display-3">Mis conferencias</h1>
-            </div>
-            <div ui-tree class="md-padding">
-                <ol ui-tree-nodes="" ng-model="misConferencias" class="lista">
-                    <li ng-repeat="c in misConferencias" ui-tree-node class="listaNodo">
-                        <div>
-                            <span class="nodoNombre">{{c.nombre}}</span><span class="nodoTipo">{{c.tipo}}</span>  <span class="nodoFecha">{{c.fecha}}</span>
-                        </div>
-                    </li>
-                </ol>
+                <!--MAPA 1-->
+                <md-card flex-gt-sm="50" flex-gt-md="40" flex-gt-lg="35">
+                    <div id="gmap_canvas1" style="height: 350px; width: 100%;"></div>
+                    <md-card-content>
+                        <h2 class="md-title">Nuestra localización</h2>
+                    </md-card-content>
+                </md-card>
+
+                <!--MAPA 2-->
+                <md-card flex-gt-sm="50" flex-gt-md="40" flex-gt-lg="35">
+                    <div id="gmap_canvas2" style="height: 350px; width: 100%;"></div>
+                    <md-card-content>
+                        <h2 class="md-title">Su localización</h2>
+                    </md-card-content>
+                </md-card>
+
             </div>
         </div>
 
-    </div>
-    <!--//////////////ASISTENTES////////////////////////////////////////////////////////////////////////////////////////-->
-    <div class="section" id="asistentes">
-        <div layout="column">
-            <h1 layout="row" layout-align="space-around center" class="md-display-3 md-padding">Asistentes</h1>
+        <!--//////////////MAPA DE LA SALA////////////////////////////////////////////////////////////////////////////////////////-->
+        <div class="section" id="mapaSala" layout="column" layout-align="center center" ng-controller="mapaSalaCTRL">
+            <md-card-content class="md-padding" layout="row" layout-align="center center">
+                <md-card flex>
+                    <canvas id="canvasMapaSala" width="700" height="600"></canvas>
+                    <md-card-content>
+                        <h2 class="md-title">Mapa de la sala</h2>
+                    </md-card-content>
+                </md-card>
+            </md-card-content>
+        </div>
 
-            <div layout="row">
-                <div>
-                    <ul>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                        <li>NOMBRE DE ASISTENTE</li>
-                    </ul>
+        <!--//////////////TUS CONFERENCIAS////////////////////////////////////////////////////////////////////////////////////////-->
+        <div class="section unselect" id="tusConferencias" ng-controller="conferenciasCTRL " layout="row" layout-align="space-around center">
 
+            <!--CONFERENCIAS-->
+            <div layout="column">
+                <div class="md-padding">
+                    <h1 class="md-display-3">Conferencias</h1>
                 </div>
-                <div>
-                    <md-card>
-                        <md-card-content>
-                            <h2 class="md-title">Nuevo asistente</h2>
-                        </md-card-content>
-                    </md-card>
+                <div ui-tree class="md-padding">
+                    <ol ui-tree-nodes="" ng-model="conferencias" class="lista">
+                        <li ng-repeat="c in conferencias" ui-tree-node class="listaNodo" layout="column" layout-align="center center">
+                            <div>
+                                <span class="nodoNombre">{{c.nombre}}</span><span class="nodoTipo">{{c.tipo}}</span>  <span class="nodoFecha">{{c.fecha}}</span>
+                            </div>
+                        </li>
+                    </ol>
                 </div>
+            </div>
 
+            <!--MIS CONFERENCIAS-->
+            <div layout="column">
+                <div class="md-padding">
+                    <h1 class="md-display-3">Mis conferencias</h1>
+                </div>
+                <div ui-tree class="md-padding">
+                    <ol ui-tree-nodes="" ng-model="misConferencias" class="lista">
+                        <li ng-repeat="c in misConferencias" ui-tree-node class="listaNodo">
+                            <div>
+                                <span class="nodoNombre">{{c.nombre}}</span><span class="nodoTipo">{{c.tipo}}</span>  <span class="nodoFecha">{{c.fecha}}</span>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+        <!--//////////////ASISTENTES////////////////////////////////////////////////////////////////////////////////////////-->
+        <div class="section" id="asistentes">
+            <div layout="column">
+                <h1 layout="row" layout-align="space-around center" class="md-display-3 md-padding">Asistentes</h1>
+                <div layout="row">
+                    <div>
+                        <!--LISTA DE ASISTENTES-->
+                    </div>
+                    <div>
+                        <!--PANEL DE AGREGADO-->
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
-
-</div>
+</body>
+</html>
