@@ -28,6 +28,14 @@
     font-family: 'Raleway', sans-serif;
 }
 
+.unselect {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+}
+
+
 #dondeEstamos {
     /*background-image: url(../Media/imgs/bg1.png);*/
     background-color: rgb(92, 230, 230);
@@ -37,8 +45,8 @@
     background-color: rgb(255, 102, 102);
 }
 
-#mapaSala md-card {
-}
+    #mapaSala md-card {
+    }
 
 #tusConferencias {
     background-color: rgb(153, 255, 204);
@@ -67,5 +75,40 @@ md-card {
 
 #canvasMapaSala {
     background-color: rgb(51, 51, 51);
+}
 
+.lista {
+}
+
+.listaNodo {
+    padding: 20px;
+    background-color: white;
+    margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+    border-radius: 2px;
+    cursor: move;
+}
+
+    .listaNodo .nodoNombre {
+        display: block;
+    }
+
+    .listaNodo .nodoTipo {
+        margin-top: 10px;
+        font-size: 15px;
+    }
+
+    .listaNodo .nodoFecha {
+        float: right;
+        margin-top: 15px;
+        font-size: 15px;
+        font-style: italic;
+    }
+
+.angular-ui-tree-empty {
+    background-color: white;
+    opacity: .4;
+    border: 0;
 }

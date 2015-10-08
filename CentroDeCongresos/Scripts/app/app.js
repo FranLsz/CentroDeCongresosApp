@@ -52,6 +52,10 @@ angular.element(document).ready(function () {
         afterSlideLoad: function (anchorLink, index, slideAnchor, slideIndex) { },
         onSlideLeave: function (anchorLink, index, slideIndex, direction, nextSlideIndex) { }
     });
+
+
+
+
 });
 
 
@@ -59,6 +63,23 @@ var app = angular.module("app", ["ngMaterial", "ui.tree"]);
 
 //MAIN CONTROLLER
 app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", function ($scope, $mdDialog, $timeout, $mdToast) {
+
+    $scope.showAlert = function (ev) {
+           $mdDialog.show(
+             $mdDialog.alert()
+               .clickOutsideToClose(false)
+               .title('Nombre de la empresa')
+               .content("<input type='text'>")
+               .ariaLabel('NombreEmpresa')
+               .ok('Aceptar')
+               .targetEvent(ev)
+           );
+    };
+
+
+    //$timeout(function () { $scope.showAlert(); }, 100);
+    
+
 
 }]);
 
@@ -153,16 +174,17 @@ app.controller("mapaSalaCTRL", ["$scope", "$timeout", "$mdToast", function ($sco
 
 // TUS CONFERENCIAS CONTROLLER
 app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", function ($scope, $timeout, $mdToast) {
-    var self = this;
 
-   $scope.conferencias = [
-        { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
-        { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
-        { tipo: "Industria  Farmaceútica", nombre: "PHARMA", fecha: "21/11/2015" },
-        { tipo: "Ingeniería", nombre: "Potencia, energía e ingeniería eléctrica", fecha: "14/10/2015" },
-        { tipo: "Gestion de empresas", nombre: "Competencias monopolísticas", fecha: "11/11/2015" },
-        { tipo: "Política", nombre: "Desafíos presidenciales", fecha: "07/09/2015" },
+    $scope.conferencias = [
+         { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
+         { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
+         { tipo: "Industria  Farmaceútica", nombre: "PHARMA", fecha: "21/11/2015" },
+         { tipo: "Ingeniería", nombre: "Potencia, energía e ingeniería eléctrica", fecha: "14/10/2015" },
+         { tipo: "Gestion de empresas", nombre: "Competencias monopolísticas", fecha: "11/11/2015" },
+         { tipo: "Política", nombre: "Desafíos presidenciales", fecha: "07/09/2015" },
     ];
+
+    $scope.misConferencias = [];
 
 }]);
 
