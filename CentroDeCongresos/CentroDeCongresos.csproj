@@ -91,7 +91,7 @@
     <Content Include="Scripts\angular\angular-material.min.js" />
     <Content Include="Scripts\angular\angular-ui-tree.min.js" />
     <Content Include="Scripts\angular\angular.min.js" />
-    <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\home.js" />
     <Content Include="Scripts\angular\angular-animate.min.js.map" />
     <Content Include="Scripts\angular\angular-aria.min.js.map" />
     <Content Include="Scripts\angular\angular.min.js.map" />
