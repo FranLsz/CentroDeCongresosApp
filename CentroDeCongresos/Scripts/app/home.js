@@ -2,6 +2,8 @@
     location.replace("http://localhost:51260");
 }
 
+var url = "https://alumnoscurso.azure-mobile.net/Tables/Conferencia15";
+
 //Inicia la libreria FULLPAGE.JS cuando cargue el documento
 angular.element(document).ready(function () {
     $('#fullpage').fullpage({
@@ -59,6 +61,39 @@ angular.element(document).ready(function () {
 });
 
 var app = angular.module("app", ["ngMaterial", "ui.tree"]);
+
+//SERVICES
+app.service("conferenciasService", ["$http", function ($http) {
+    //obtencion de las conferencias disponibles
+    this.getConferencias = function () {
+        var conferencias = [
+        { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
+        { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
+        { tipo: "Industria  Farmaceútica", nombre: "PHARMA", fecha: "21/11/2015" },
+        { tipo: "Ingeniería", nombre: "Potencia, energía e ingeniería eléctrica", fecha: "14/10/2015" },
+        { tipo: "Gestion de empresas", nombre: "Competencias monopolísticas", fecha: "11/11/2015" },
+        { tipo: "Política", nombre: "Desafíos presidenciales", fecha: "07/09/2015" }
+        ];
+        return conferencias;
+    }
+
+    this.saveMisConferencias = function (misConferencias) {
+        var request = $http({
+            method: "post",
+            url: url,
+            data: {
+                empresa: localStorage.getItem("empresa"),
+                json: angular.toJson(misConferencias)
+            }
+        });
+        request.success(
+            function () {
+                console.log("saved");
+            }
+        );
+    }
+}]);
+
 
 //MAIN CONTROLLER
 app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", function ($scope, $mdDialog, $timeout, $mdToast) {
@@ -155,18 +190,39 @@ app.controller("mapaSalaCTRL", ["$scope", "$timeout", "$mdToast", function ($sco
 
 
 // TUS CONFERENCIAS CONTROLLER
-app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", function ($scope, $timeout, $mdToast) {
+app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenciasService", function ($scope, $timeout, $mdToast, conferenciasService) {
+    $scope.treeConferencias = {
+        //cuando se deje de agarrar 
+        dropped: function (even) {
+            //si se ha depositado en la lista de mis conferencias (y no en la lista de conferencias disponibles)
+            if (even.dest.nodesScope.$parent.$element.context.attributes[0].nodeValue === "treeMisConferencias") {
+                //guarda el estado de misConferencias
 
-    $scope.conferencias = [
-         { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
-         { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
-         { tipo: "Industria  Farmaceútica", nombre: "PHARMA", fecha: "21/11/2015" },
-         { tipo: "Ingeniería", nombre: "Potencia, energía e ingeniería eléctrica", fecha: "14/10/2015" },
-         { tipo: "Gestion de empresas", nombre: "Competencias monopolísticas", fecha: "11/11/2015" },
-         { tipo: "Política", nombre: "Desafíos presidenciales", fecha: "07/09/2015" },
-    ];
+                conferenciasService.saveMisConferencias($scope.misConferencias);
+                console.log("Añadido a mis conferencias");
+
+            }
+        }
+    };
+
+    $scope.treeMisConferencias = {
+        //cuando se deje de agarrar 
+        dropped: function (even) {
+            //si se ha depositado en la lista de conferencias disponibles (y no en la lista de mis conferencias)
+            if (even.dest.nodesScope.$parent.$element.context.attributes[0].nodeValue === "treeConferencias") {
+                //guarda el estado de misConferencias
+                conferenciasService.saveMisConferencias($scope.misConferencias);
+
+                console.log("Quitado de mis conferencias");
+            }
+        }
+    };
+
+
+    $scope.conferencias = conferenciasService.getConferencias();
 
     $scope.misConferencias = [];
+
 
 }]);
 
