@@ -1,8 +1,16 @@
-﻿if (!localStorage.getItem("empresa")) {
+﻿//Comprobacion de que tenemos un nombre de empresa
+if (!localStorage.getItem("empresa")) {
     location.replace("http://localhost:51260");
 }
 
+//URL API de Azure
 var url = "https://alumnoscurso.azure-mobile.net/Tables/Conferencia15";
+
+//Nombre de la empresa
+var empresa = localStorage.getItem("empresa");
+
+//ID de la empresa
+var empresaID;
 
 //Inicia la libreria FULLPAGE.JS cuando cargue el documento
 angular.element(document).ready(function () {
@@ -65,7 +73,7 @@ var app = angular.module("app", ["ngMaterial", "ui.tree"]);
 //SERVICES
 app.service("conferenciasService", ["$http", function ($http) {
     //obtencion de las conferencias disponibles
-    this.getConferencias = function () {
+    this.getDefaultConferencias = function () {
         var conferencias = [
         { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
         { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
@@ -78,25 +86,73 @@ app.service("conferenciasService", ["$http", function ($http) {
     }
 
     this.saveMisConferencias = function (misConferencias) {
-        var request = $http({
-            method: "post",
-            url: url,
+        $http({
+            method: "PATCH",
+            url: url + "/" + empresaID,
             data: {
                 empresa: localStorage.getItem("empresa"),
                 json: angular.toJson(misConferencias)
             }
-        });
-        request.success(
+        }).success(
             function () {
                 console.log("saved");
             }
         );
     }
+
+
+    this.getMisConferencias = function () {
+
+        var res = $http({
+            method: "GET",
+            url: url + "?$filter=empresa eq '" + empresa + "'"
+        }).success(
+            function (data) {
+                console.log(data);
+                return data;
+            }
+        );
+    }
+
+
 }]);
 
 
 //MAIN CONTROLLER
-app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", function ($scope, $mdDialog, $timeout, $mdToast) {
+app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", "$http", function ($scope, $mdDialog, $timeout, $mdToast, $http) {
+
+    //obtencion del ID de la empresa almacenada en el localstorage
+    $scope.getEmpresaId = function () {
+        $http.get(url + "?$filter=empresa eq '" + empresa + "'")
+        .success(function (res) {
+            //si se ha encontrado el ID
+            if (res.length !== 0) {
+                empresaID = res[0].id;
+                console.log("ID obtenido");
+
+            } else {
+                //si no se ha encontrado se crea uno para la nueva empresa
+                console.log("ID no encontrado");
+                $http({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        empresa: localStorage.getItem("empresa"),
+                        json: "[]"
+                    }
+                }).success(
+            function (res) {
+                console.log("Creado ID para la nueva empresa");
+                empresaID = res.id;
+            }
+        );
+            }
+        })
+        .error(function () {
+            console.log("Problemas al buscar el ID");
+        });
+    }
+
 
 }]);
 
@@ -219,20 +275,14 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
     };
 
 
-    $scope.conferencias = conferenciasService.getConferencias();
+    $scope.conferencias = conferenciasService.getDefaultConferencias();
+
+    var cf = conferenciasService.getMisConferencias();
 
     $scope.misConferencias = [];
 
 
 }]);
-
-
-
-
-
-
-
-
 
 
 
