@@ -101,7 +101,7 @@
     <Content Include="Scripts\jquery\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery\jquery.fullpage.js" />
     <Content Include="Scripts\jquery\jquery.fullpage.min.js" />
-    <Content Include="Scripts\app\login.js" />
+    <Content Include="Scripts\app\index.js" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery\jquery.fullpage.min.js.map" />
   </ItemGroup>

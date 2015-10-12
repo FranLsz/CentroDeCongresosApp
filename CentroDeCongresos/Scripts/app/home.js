@@ -96,21 +96,35 @@ app.service("conferenciasService", ["$http", function ($http) {
             }
         }).success(
             function () {
-                console.log("Saved");
+                console.log("Confenrecias Saved");
             }
         );
     }
 
 
     this.getMisConferencias = function () {
+        //pendiente de implelentar, el codigo esta puesto directamente en el controlador
+    }
+}]);
 
-
-
+app.service("asistentesService", ["$http", function ($http) {
+    this.saveAsistentes = function (asistentes) {
+        $http({
+            method: "PATCH",
+            url: url + "/" + empresaID,
+            data: {
+                empresa: localStorage.getItem("empresa"),
+                asistentes_json: angular.toJson(asistentes)
+            }
+        }).success(
+            function () {
+                console.log("Asistentes Saved");
+            }
+        );
     }
 
 
 }]);
-
 
 //MAIN CONTROLLER
 app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", "$http", function ($scope, $mdDialog, $timeout, $mdToast, $http) {
@@ -234,7 +248,6 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
             }
 
         });
-
         return finalList;
     }
 
@@ -244,10 +257,8 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
             //si se ha depositado en la lista de mis conferencias (y no en la lista de conferencias disponibles)
             if (even.dest.nodesScope.$parent.$element.context.attributes[0].nodeValue === "treeMisConferencias") {
                 //guarda el estado de misConferencias
-
                 conferenciasService.saveMisConferencias($scope.misConferencias);
                 console.log("Añadido a mis conferencias");
-
             }
         }
     };
@@ -259,15 +270,12 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
             if (even.dest.nodesScope.$parent.$element.context.attributes[0].nodeValue === "treeConferencias") {
                 //guarda el estado de misConferencias
                 conferenciasService.saveMisConferencias($scope.misConferencias);
-
                 console.log("Quitado de mis conferencias");
             }
         }
     };
 
-
     $scope.conferencias = conferenciasService.getDefaultConferencias();
-
 
     //tiempo de espera a que se devuelva la ID de la empresa
     $timeout(function () {
@@ -290,6 +298,72 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
 
 }]);
 
+app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast","$mdDialog", "asistentesService", "$http", function ($scope, $timeout, $mdToast,$mdDialog, asistentesService, $http) {
+
+    $scope.asistentes = [];
+
+    $timeout(function () {
+        $http({
+            method: "GET",
+            url: url + "/" + empresaID
+        }).success(
+             function (data) {
+                 if (data == undefined) {
+                     console.log("Sin asistentes establecidos");
+                     $scope.asistentes = [];
+
+                 } else {
+                     $scope.asistentes = JSON.parse(data.asistentes_json);
+                 }
+             }
+         );
+    }, 500);
+
+    $scope.agregarAsistente = function () {
+        $scope.asistentes.push(angular.fromJson(angular.toJson($scope.datos)));
+        $mdToast.show(
+                $mdToast.simple()
+                .content("Asistente agregado")
+                .position("bottom right")
+                .hideDelay(1000)
+            );
+        asistentesService.saveAsistentes($scope.asistentes);
+    }
+
+    $scope.borrarAsistente = function (index) {
+
+
+
+
+        $scope.showConfirm = function (ev) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.confirm()
+              .title('Borrar asistente')
+              .content('El asistente sera borrado definitivamente')
+              .ariaLabel('Lucky day')
+              .ok('Borrar')
+              .cancel('Cancelar')
+              .targetEvent(ev);
+            $mdDialog.show(confirm).then(function () {
+                //se confirmo la operacion de borrado
+                $scope.asistentes.splice(index, 1);
+                $mdToast.show(
+                       $mdToast.simple()
+                       .content("Asistente eliminado")
+                       .position("bottom right")
+                       .hideDelay(1000)
+                   );
+                asistentesService.saveAsistentes($scope.asistentes);
+            }, function () {
+                //se cancelo la operacion de borrado
+            });
+        };
+
+        $scope.showConfirm();
+
+    }
+
+}]);
 
 
 //alert code

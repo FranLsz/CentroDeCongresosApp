@@ -8,10 +8,6 @@ var app = angular.module("login", ["ngMaterial"]);
 
 app.controller("loginCTRL", ["$scope", "$http", function ($scope, $http) {
 
-    $scope.datos = {
-        nombre: ""
-    };
-
     //obtencion del ID de la empresa almacenada en el localstorage
     $scope.saveEmpresaValues = function (empresa) {
         $http.get(url + "?$filter=empresa eq '" + empresa + "'")
