@@ -12,6 +12,8 @@ var empresa = localStorage.getItem("empresa");
 //ID de la empresa
 var empresaID;
 
+
+
 //Inicia la libreria FULLPAGE.JS cuando cargue el documento
 angular.element(document).ready(function () {
     $('#fullpage').fullpage({
@@ -103,15 +105,8 @@ app.service("conferenciasService", ["$http", function ($http) {
 
     this.getMisConferencias = function () {
 
-        var res = $http({
-            method: "GET",
-            url: url + "?$filter=empresa eq '" + empresa + "'"
-        }).success(
-            function (data) {
-                console.log(data);
-                return data;
-            }
-        );
+
+
     }
 
 
@@ -246,7 +241,29 @@ app.controller("mapaSalaCTRL", ["$scope", "$timeout", "$mdToast", function ($sco
 
 
 // TUS CONFERENCIAS CONTROLLER
-app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenciasService", function ($scope, $timeout, $mdToast, conferenciasService) {
+app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenciasService", "$http", function ($scope, $timeout, $mdToast, conferenciasService, $http) {
+
+    $scope.obtenerConferenciasRestantes = function(miLista, listaTotal) {
+        var finalList = [];
+
+        angular.forEach(listaTotal, function (value1, key1) {
+            var centinela = false;
+            angular.forEach(miLista, function (value2, key2) {
+                if (value1.nombre === value2.nombre) {
+                    centinela = true;
+                }
+            });
+
+            if (!centinela) {
+                finalList.push(value1);
+            }
+
+        });
+
+
+        return finalList;
+    }
+
     $scope.treeConferencias = {
         //cuando se deje de agarrar 
         dropped: function (even) {
@@ -277,9 +294,52 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
 
     $scope.conferencias = conferenciasService.getDefaultConferencias();
 
-    var cf = conferenciasService.getMisConferencias();
+    $timeout(function () {
+        $http({
+            method: "GET",
+            url: url + "/" + empresaID
+        }).success(
+             function (data) {
+                 if (data == undefined) {
+                     console.log("Sin conferencias elegidas");
+                     $scope.misConferencias = [];
 
-    $scope.misConferencias = [];
+                 } else {
+                     $scope.misConferencias = JSON.parse(data.json);
+                     $scope.conferencias = $scope.obtenerConferenciasRestantes($scope.misConferencias, $scope.conferencias);
+                 }
+             }
+         );
+    }, 500);
+
+
+    /*
+    $http({
+        method: "GET",
+        url: url + "?$filter=empresa eq '" + empresa + "'"
+    }).success(
+        function (data) {
+            if (data == undefined) {
+                console.log("Sin conferencias elegidas");
+                $scope.misConferencias = [];
+
+            } else {
+               var cf;
+                    alert(JSON.parse(data.json));
+
+                    cf = JSON.parse(data.json);
+                    $scope.misConferencias = cf;
+
+            }
+        }
+);*/
+
+
+
+
+
+
+
 
 
 }]);
