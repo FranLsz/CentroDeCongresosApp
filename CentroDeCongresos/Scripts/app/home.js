@@ -4,13 +4,12 @@ if (!localStorage.getItem("empresa")) {
 }
 
 //URL API de Azure
-var url = "https://alumnoscurso.azure-mobile.net/Tables/Conferencia15";
+var url = "https://alumnoscurso.azure-mobile.net/Tables/centro_de_congresos15";
 
-//Nombre de la empresa
+//Nombre e ID de la empresa
 var empresa = localStorage.getItem("empresa");
+var empresaID = localStorage.getItem("empresaID");
 
-//ID de la empresa
-var empresaID;
 
 
 
@@ -93,11 +92,11 @@ app.service("conferenciasService", ["$http", function ($http) {
             url: url + "/" + empresaID,
             data: {
                 empresa: localStorage.getItem("empresa"),
-                json: angular.toJson(misConferencias)
+                conferencias_json: angular.toJson(misConferencias)
             }
         }).success(
             function () {
-                console.log("saved");
+                console.log("Saved");
             }
         );
     }
@@ -115,39 +114,6 @@ app.service("conferenciasService", ["$http", function ($http) {
 
 //MAIN CONTROLLER
 app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", "$http", function ($scope, $mdDialog, $timeout, $mdToast, $http) {
-
-    //obtencion del ID de la empresa almacenada en el localstorage
-    $scope.getEmpresaId = function () {
-        $http.get(url + "?$filter=empresa eq '" + empresa + "'")
-        .success(function (res) {
-            //si se ha encontrado el ID
-            if (res.length !== 0) {
-                empresaID = res[0].id;
-                console.log("ID obtenido");
-
-            } else {
-                //si no se ha encontrado se crea uno para la nueva empresa
-                console.log("ID no encontrado");
-                $http({
-                    method: "POST",
-                    url: url,
-                    data: {
-                        empresa: localStorage.getItem("empresa"),
-                        json: "[]"
-                    }
-                }).success(
-            function (res) {
-                console.log("Creado ID para la nueva empresa");
-                empresaID = res.id;
-            }
-        );
-            }
-        })
-        .error(function () {
-            console.log("Problemas al buscar el ID");
-        });
-    }
-
 
 }]);
 
@@ -243,23 +209,31 @@ app.controller("mapaSalaCTRL", ["$scope", "$timeout", "$mdToast", function ($sco
 // TUS CONFERENCIAS CONTROLLER
 app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenciasService", "$http", function ($scope, $timeout, $mdToast, conferenciasService, $http) {
 
-    $scope.obtenerConferenciasRestantes = function(miLista, listaTotal) {
+    //obtiene una lista con las conferencias restantes que no se han elegido
+    $scope.obtenerConferenciasRestantes = function (miLista, listaTotal) {
         var finalList = [];
 
+        //recore la lista total de conferencias
         angular.forEach(listaTotal, function (value1, key1) {
+            //esta variable controla si una conferencia de mi lista se encuentra en la lista total
             var centinela = false;
+
+            //se recorre mi lista
             angular.forEach(miLista, function (value2, key2) {
+                //si los valores son iguales
                 if (value1.nombre === value2.nombre) {
+                    //se marca esta iteracion para que no se añada a la lista final
                     centinela = true;
                 }
             });
 
+            //si esta iteracion no esta marcada, es decir, las conferencias que se estan comparando no coinciden, 
+            //se añade a la lista final
             if (!centinela) {
                 finalList.push(value1);
             }
 
         });
-
 
         return finalList;
     }
@@ -294,6 +268,8 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
 
     $scope.conferencias = conferenciasService.getDefaultConferencias();
 
+
+    //tiempo de espera a que se devuelva la ID de la empresa
     $timeout(function () {
         $http({
             method: "GET",
@@ -305,42 +281,12 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
                      $scope.misConferencias = [];
 
                  } else {
-                     $scope.misConferencias = JSON.parse(data.json);
+                     $scope.misConferencias = JSON.parse(data.conferencias_json);
                      $scope.conferencias = $scope.obtenerConferenciasRestantes($scope.misConferencias, $scope.conferencias);
                  }
              }
          );
     }, 500);
-
-
-    /*
-    $http({
-        method: "GET",
-        url: url + "?$filter=empresa eq '" + empresa + "'"
-    }).success(
-        function (data) {
-            if (data == undefined) {
-                console.log("Sin conferencias elegidas");
-                $scope.misConferencias = [];
-
-            } else {
-               var cf;
-                    alert(JSON.parse(data.json));
-
-                    cf = JSON.parse(data.json);
-                    $scope.misConferencias = cf;
-
-            }
-        }
-);*/
-
-
-
-
-
-
-
-
 
 }]);
 
