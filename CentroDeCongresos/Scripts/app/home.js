@@ -10,9 +10,6 @@ var url = "https://alumnoscurso.azure-mobile.net/Tables/centro_de_congresos15";
 var empresa = localStorage.getItem("empresa");
 var empresaID = localStorage.getItem("empresaID");
 
-
-
-
 //Inicia la libreria FULLPAGE.JS cuando cargue el documento
 angular.element(document).ready(function () {
     $('#fullpage').fullpage({
@@ -101,7 +98,6 @@ app.service("conferenciasService", ["$http", function ($http) {
         );
     }
 
-
     this.getMisConferencias = function () {
         //pendiente de implelentar, el codigo esta puesto directamente en el controlador
     }
@@ -122,8 +118,6 @@ app.service("asistentesService", ["$http", function ($http) {
             }
         );
     }
-
-
 }]);
 
 //MAIN CONTROLLER
@@ -170,7 +164,6 @@ app.controller("localizacionCTRL", ["$scope", "$timeout", "$mdToast", function (
     initMapMe();
     //google.maps.event.addDomListener(window, 'load', initMapMe);
 
-
     //Se piden permisos de ubicacion
     if (navigator.geolocation) {
 
@@ -214,11 +207,7 @@ app.controller("mapaSalaCTRL", ["$scope", "$timeout", "$mdToast", function ($sco
     ctx.fillRect(425, 400, 100, 30);
     ctx.stroke();
 
-
 }]);
-
-
-
 
 // TUS CONFERENCIAS CONTROLLER
 app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenciasService", "$http", function ($scope, $timeout, $mdToast, conferenciasService, $http) {
@@ -287,7 +276,6 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
                  if (data == undefined) {
                      console.log("Sin conferencias elegidas");
                      $scope.misConferencias = [];
-
                  } else {
                      $scope.misConferencias = JSON.parse(data.conferencias_json);
                      $scope.conferencias = $scope.obtenerConferenciasRestantes($scope.misConferencias, $scope.conferencias);
@@ -298,7 +286,7 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
 
 }]);
 
-app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast","$mdDialog", "asistentesService", "$http", function ($scope, $timeout, $mdToast,$mdDialog, asistentesService, $http) {
+app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast", "$mdDialog", "asistentesService", "$http", function ($scope, $timeout, $mdToast, $mdDialog, asistentesService, $http) {
 
     $scope.asistentes = [];
 
@@ -332,9 +320,6 @@ app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast","$mdDialog", 
 
     $scope.borrarAsistente = function (index) {
 
-
-
-
         $scope.showConfirm = function (ev) {
             // Appending dialog to document.body to cover sidenav in docs app
             var confirm = $mdDialog.confirm()
@@ -364,22 +349,3 @@ app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast","$mdDialog", 
     }
 
 }]);
-
-
-//alert code
-
-/*$scope.showAlert = function (ev) {
-       $mdDialog.show(
-         $mdDialog.alert()
-           .clickOutsideToClose(true)
-           .title('Aviso importante')
-           .content('Cuidado con los botones que pulsas')
-           .ariaLabel('AvisoUsuario')
-           .ok('Entendido')
-           .targetEvent(ev)
-       );
-   };
-
-   $timeout(function() {
-       $scope.showAlert();
-   },2000);*/
