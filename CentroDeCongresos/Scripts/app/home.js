@@ -103,22 +103,88 @@ app.service("conferenciasService", ["$http", function ($http) {
     }
 }]);
 
-app.service("asistentesService", ["$http", function ($http) {
-    this.saveAsistentes = function (asistentes) {
-        $http({
-            method: "PATCH",
-            url: url + "/" + empresaID,
-            data: {
-                empresa: localStorage.getItem("empresa"),
-                asistentes_json: angular.toJson(asistentes)
-            }
-        }).success(
-            function () {
-                console.log("Asistentes Saved");
-            }
-        );
+app.service("conferenciasService", ["$http", function ($http) {
+
+    var service = {
+        getDefaultConferencias: function () {
+            var conferencias = [
+            { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
+            { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
+            { tipo: "Industria  Farmaceútica", nombre: "PHARMA", fecha: "21/11/2015" },
+            { tipo: "Ingeniería", nombre: "Potencia, energía e ingeniería eléctrica", fecha: "14/10/2015" },
+            { tipo: "Gestion de empresas", nombre: "Competencias monopolísticas", fecha: "11/11/2015" },
+            { tipo: "Política", nombre: "Desafíos presidenciales", fecha: "07/09/2015" }
+            ];
+            return conferencias;
+        },
+        saveMisConferencias: function (misConferencias) {
+            var promise = $http({
+                method: "PATCH",
+                url: url + "/" + empresaID,
+                data: {
+                    empresa: localStorage.getItem("empresa"),
+                    conferencias_json: angular.toJson(misConferencias)
+                }
+            }).then(
+                function () {
+                    console.log("Conferencias Saved");
+                }
+            );
+            return promise;
+        },
+        getMisConferencias: function () {
+            var promise = $http({
+                method: "GET",
+                url: url + "/" + empresaID
+            }).then(
+              function (res) {
+                  return JSON.parse(res.data.conferencias_json);
+              }
+          );
+            return promise;
+        }
     }
+    return service;
 }]);
+
+
+
+app.service("asistentesService", ["$http", function ($http) {
+
+    var service = {
+        saveAsistentes: function (asistentes) {
+            // $http returns a promise, which has a then function, which also returns a promise
+            var promise = $http({
+                method: "PATCH",
+                url: url + "/" + empresaID,
+                data: {
+                    empresa: localStorage.getItem("empresa"),
+                    asistentes_json: angular.toJson(asistentes)
+                }
+            }).then(function () {
+                console.log("Asistentes Saved");
+            });
+            return promise;
+        },
+        getAsistentes: function () {
+
+            var promise = $http({
+                method: "GET",
+                url: url + "/" + empresaID
+            }).then(
+              function (res) {
+                  return JSON.parse(res.data.asistentes_json);
+              }
+          );
+            return promise;
+        }
+    };
+    return service;
+}]);
+
+
+
+
 
 //MAIN CONTROLLER
 app.controller("mainCTRL", ["$scope", "$mdDialog", "$timeout", "$mdToast", "$http", function ($scope, $mdDialog, $timeout, $mdToast, $http) {
@@ -266,23 +332,10 @@ app.controller("conferenciasCTRL", ["$scope", "$timeout", "$mdToast", "conferenc
 
     $scope.conferencias = conferenciasService.getDefaultConferencias();
 
-    //tiempo de espera a que se devuelva la ID de la empresa
-    $timeout(function () {
-        $http({
-            method: "GET",
-            url: url + "/" + empresaID
-        }).success(
-             function (data) {
-                 if (data == undefined) {
-                     console.log("Sin conferencias elegidas");
-                     $scope.misConferencias = [];
-                 } else {
-                     $scope.misConferencias = JSON.parse(data.conferencias_json);
-                     $scope.conferencias = $scope.obtenerConferenciasRestantes($scope.misConferencias, $scope.conferencias);
-                 }
-             }
-         );
-    }, 500);
+    conferenciasService.getMisConferencias().then(function (data) {
+        $scope.misConferencias = data;
+        $scope.conferencias = $scope.obtenerConferenciasRestantes($scope.misConferencias, $scope.conferencias);
+    });
 
 }]);
 
@@ -290,22 +343,9 @@ app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast", "$mdDialog",
 
     $scope.asistentes = [];
 
-    $timeout(function () {
-        $http({
-            method: "GET",
-            url: url + "/" + empresaID
-        }).success(
-             function (data) {
-                 if (data == undefined) {
-                     console.log("Sin asistentes establecidos");
-                     $scope.asistentes = [];
-
-                 } else {
-                     $scope.asistentes = JSON.parse(data.asistentes_json);
-                 }
-             }
-         );
-    }, 500);
+    asistentesService.getAsistentes().then(function (data) {
+        $scope.asistentes = data;
+    });
 
     $scope.agregarAsistente = function () {
         $scope.asistentes.push(angular.fromJson(angular.toJson($scope.datos)));
@@ -315,7 +355,9 @@ app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast", "$mdDialog",
                 .position("bottom right")
                 .hideDelay(1000)
             );
+
         asistentesService.saveAsistentes($scope.asistentes);
+
         $scope.datos = {
             nombre: "",
             apellidos: "",
