@@ -316,36 +316,50 @@ app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast", "$mdDialog",
                 .hideDelay(1000)
             );
         asistentesService.saveAsistentes($scope.asistentes);
+        $scope.datos = {
+            nombre: "",
+            apellidos: "",
+            cargo: ""
+        };
+
+        //reseteo del formulario para añadir asistentes
+        $scope.defaultFormData = angular.copy($scope.resetCopy);
+        $scope.loginForm.$setPristine();
+        $scope.loginForm.$setValidity();
+        $scope.loginForm.$setUntouched();
     }
 
     $scope.borrarAsistente = function (index) {
 
         $scope.showConfirm = function (ev) {
-            // Appending dialog to document.body to cover sidenav in docs app
-            var confirm = $mdDialog.confirm()
-              .title('Borrar asistente')
-              .content('El asistente sera borrado definitivamente')
-              .ariaLabel('Lucky day')
-              .ok('Borrar')
-              .cancel('Cancelar')
-              .targetEvent(ev);
-            $mdDialog.show(confirm).then(function () {
-                //se confirmo la operacion de borrado
-                $scope.asistentes.splice(index, 1);
-                $mdToast.show(
-                       $mdToast.simple()
-                       .content("Asistente eliminado")
-                       .position("bottom right")
-                       .hideDelay(1000)
-                   );
-                asistentesService.saveAsistentes($scope.asistentes);
-            }, function () {
-                //se cancelo la operacion de borrado
-            });
+
+            $mdDialog.show(
+
+                  $mdDialog.confirm()
+                  .title('Borrar asistente')
+                  .content('El asistente será borrado definitivamente')
+                  .ariaLabel('Borrar asistente')
+                  .ok('Borrar')
+                  .cancel('Cancelar')
+                  .targetEvent(ev)
+
+              ).then(function () {
+                  //se confirmo la operacion de borrado
+                  $scope.asistentes.splice(index, 1);
+                  $mdToast.show(
+                         $mdToast.simple()
+                         .content("Asistente eliminado")
+                         .position("bottom right")
+                         .hideDelay(1000)
+                     );
+                  asistentesService.saveAsistentes($scope.asistentes);
+
+              }, function () {
+                  //se cancelo la operacion de borrado
+              });
         };
 
         $scope.showConfirm();
-
     }
 
 }]);
