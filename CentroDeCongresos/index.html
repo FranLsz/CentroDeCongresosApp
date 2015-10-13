@@ -47,6 +47,7 @@
                             <md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid">Entrar</md-button>
                         </div>
                     </form>
+                    <md-progress-linear md-mode="indeterminate" ng-show="{{loader.show}}"></md-progress-linear>
 
                 </div>
             </md-card-content>
