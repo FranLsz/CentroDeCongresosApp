@@ -69,40 +69,8 @@ angular.element(document).ready(function () {
 var app = angular.module("app", ["ngMaterial", "ui.tree"]);
 
 //SERVICES
-app.service("conferenciasService", ["$http", function ($http) {
-    //obtencion de las conferencias disponibles
-    this.getDefaultConferencias = function () {
-        var conferencias = [
-        { tipo: "Informática", nombre: "Programación orientada a objetos", fecha: "22/12/2015" },
-        { tipo: "Matemáticas", nombre: "Geometría y estadísticas", fecha: "10/9/2015" },
-        { tipo: "Industria  Farmaceútica", nombre: "PHARMA", fecha: "21/11/2015" },
-        { tipo: "Ingeniería", nombre: "Potencia, energía e ingeniería eléctrica", fecha: "14/10/2015" },
-        { tipo: "Gestion de empresas", nombre: "Competencias monopolísticas", fecha: "11/11/2015" },
-        { tipo: "Política", nombre: "Desafíos presidenciales", fecha: "07/09/2015" }
-        ];
-        return conferencias;
-    }
 
-    this.saveMisConferencias = function (misConferencias) {
-        $http({
-            method: "PATCH",
-            url: url + "/" + empresaID,
-            data: {
-                empresa: localStorage.getItem("empresa"),
-                conferencias_json: angular.toJson(misConferencias)
-            }
-        }).success(
-            function () {
-                console.log("Confenrecias Saved");
-            }
-        );
-    }
-
-    this.getMisConferencias = function () {
-        //pendiente de implelentar, el codigo esta puesto directamente en el controlador
-    }
-}]);
-
+//conferencias service
 app.service("conferenciasService", ["$http", function ($http) {
 
     var service = {
@@ -147,8 +115,7 @@ app.service("conferenciasService", ["$http", function ($http) {
     return service;
 }]);
 
-
-
+//asistentes service
 app.service("asistentesService", ["$http", function ($http) {
 
     var service = {
@@ -181,9 +148,6 @@ app.service("asistentesService", ["$http", function ($http) {
     };
     return service;
 }]);
-
-
-
 
 
 //MAIN CONTROLLER
