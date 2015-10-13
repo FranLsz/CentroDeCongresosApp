@@ -66,6 +66,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="gridtesting.html" />
     <Content Include="home.html" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular\angular-fullpage.min.js" />

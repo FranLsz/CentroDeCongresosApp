@@ -27,7 +27,7 @@
     <script src="Scripts/angular/angular-material.min.js"></script>
     <style>
         body {
-            background-color: rgb(153, 255, 204);
+            background-color: rgb(92, 230, 230);
         }
     </style>
 </head>
@@ -47,8 +47,7 @@
                             <md-button class="md-raised md-primary" ng-disabled="loginForm.$invalid">Entrar</md-button>
                         </div>
                     </form>
-                    <md-progress-linear md-mode="indeterminate" ng-show="{{loader.show}}"></md-progress-linear>
-
+                    <md-progress-linear md-mode="{{loader.mode}}"></md-progress-linear>
                 </div>
             </md-card-content>
         </md-card>

@@ -331,7 +331,6 @@ app.controller("asistentesCTRL", ["$scope", "$timeout", "$mdToast", "$mdDialog",
         //reseteo del formulario para añadir asistentes
         $scope.defaultFormData = angular.copy($scope.resetCopy);
         $scope.loginForm.$setPristine();
-        $scope.loginForm.$setValidity();
         $scope.loginForm.$setUntouched();
     }
 

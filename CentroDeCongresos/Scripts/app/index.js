@@ -6,13 +6,13 @@ var url = "https://alumnoscurso.azure-mobile.net/Tables/centro_de_congresos15";
 
 var app = angular.module("login", ["ngMaterial"]);
 
-app.config(function($httpProvider) {
+app.config(function ($httpProvider) {
     $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 });
 
 app.controller("loginCTRL", ["$scope", "$http", function ($scope, $http) {
     $scope.loader = {
-        show: true
+        mode: []
     }
     //obtencion del ID de la empresa almacenada en el localstorage
     $scope.saveEmpresaValues = function (empresa) {
@@ -48,11 +48,10 @@ app.controller("loginCTRL", ["$scope", "$http", function ($scope, $http) {
     }
 
     $scope.submit = function () {
-        alert();
         $scope.loader = {
-            show:true
-        }
-        //$scope.saveEmpresaValues($scope.datos.nombre);
+            mode: "indeterminate"
+        };
+        $scope.saveEmpresaValues($scope.datos.nombre);
         localStorage.setItem("empresa", $scope.datos.nombre);
 
     }

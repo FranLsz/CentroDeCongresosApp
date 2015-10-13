@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html ng-app="gridTesting">
+<head>
+
+    <title>Centro de congresos</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--FONTS-->
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+    <!--ICONS-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--CSS-->
+    <link href="Css/angular-material.min.css" rel="stylesheet" />
+
+    <!--JS && JQUERY-->
+    <script src="Scripts/jquery/jquery-2.1.4.min.js"></script>
+
+    <!--ANGULARJS-->
+    <script src="Scripts/angular/angular.min.js"></script>
+    <script src="Scripts/angular/angular-animate.min.js"></script>
+    <script src="Scripts/angular/angular-aria.min.js"></script>
+    <script src="Scripts/angular/angular-material.min.js"></script>
+    <style>
+        html, body {
+            background-color: rgb(51, 51, 51);
+        }
+
+        .gridListdemoBasicUsage md-grid-list {
+        }
+
+        .gridListdemoBasicUsage .gray {
+            background: #f5f5f5;
+
+        }
+
+        .gridListdemoBasicUsage .green {
+            background: #b9f6ca;
+        }
+
+        .gridListdemoBasicUsage .yellow {
+            background: #ffff8d;
+        }
+
+        .gridListdemoBasicUsage .blue {
+            background: #84ffff;
+        }
+
+        .gridListdemoBasicUsage .purple {
+            background: #b388ff;
+        }
+
+        .gridListdemoBasicUsage .red {
+            background: #ff8a80;
+        }
+    </style>
+    <script>
+        var app = angular.module("gridTesting", ["ngMaterial"]);
+        app.controller("mainCTRL", ["$scope", function ($scope) {
+        }]);
+    </script>
+</head>
+<body ng-controller="mainCTRL" layout="column">
+    <div class="gridListdemoBasicUsage">
+        <md-grid-list md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="6"  md-row-height="2:2" md-gutter="20px" >
+
+            <md-grid-tile class="gray" md-rowspan="1" md-colspan="2">
+                <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h1>
+            </md-grid-tile>
+
+            <md-grid-tile class="green">
+            </md-grid-tile>
+
+            <md-grid-tile class="yellow">
+            </md-grid-tile>
+
+            <md-grid-tile class="blue" md-rowspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="green" md-rowspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="red" md-rowspan="1" md-colspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="green" md-rowspan="1" md-colspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="blue" md-colspan="2">
+            </md-grid-tile>
+
+            <md-grid-tile class="red" md-colspan="2">
+            </md-grid-tile>
+
+            <md-grid-tile class="blue" md-colspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="yellow" md-colspan="2">
+            </md-grid-tile>
+
+            <md-grid-tile class="red" md-colspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="green" md-colspan="1">
+            </md-grid-tile>
+
+            <md-grid-tile class="blue" md-colspan="1">
+            </md-grid-tile>
+
+        </md-grid-list>
+    </div>
+</body>
+
+</html>
