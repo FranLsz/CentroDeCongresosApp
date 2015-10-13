@@ -34,7 +34,6 @@
 
         .gridListdemoBasicUsage .gray {
             background: #f5f5f5;
-
         }
 
         .gridListdemoBasicUsage .green {
@@ -65,10 +64,15 @@
 </head>
 <body ng-controller="mainCTRL" layout="column">
     <div class="gridListdemoBasicUsage">
-        <md-grid-list md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="6"  md-row-height="2:2" md-gutter="20px" >
+        <md-grid-list md-cols-sm="2" md-cols-md="3" md-cols-lg="5" md-cols-gt-lg="6" md-row-height="2:2" md-gutter="20px">
 
             <md-grid-tile class="gray" md-rowspan="1" md-colspan="2">
-                <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h1>
+                <md-grid-tile-header>
+                    <h3>Cabecera de la celda</h3>
+                </md-grid-tile-header>
+                <md-grid-tile-footer>
+                    <h3>Pie de la celda</h3>
+                </md-grid-tile-footer>
             </md-grid-tile>
 
             <md-grid-tile class="green">
