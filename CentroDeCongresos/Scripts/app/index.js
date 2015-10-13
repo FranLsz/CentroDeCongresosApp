@@ -1,4 +1,4 @@
-﻿if (localStorage.getItem("empresa")) {
+﻿if (localStorage.getItem("empresa") && localStorage.getItem("empresaID")) {
     location.replace("http://localhost:51260/home.html");
 }
 
@@ -13,7 +13,7 @@ app.controller("loginCTRL", ["$scope", "$http", function ($scope, $http) {
         $http.get(url + "?$filter=empresa eq '" + empresa + "'")
             .then(function (res) {
                 //si se ha encontrado el ID
-                if (res.data !== []) {
+                if (res.data.length !== 0) {
                     localStorage.setItem("empresaID", res.data[0].id);
                     console.log("ID obtenido");
                     location.replace("http://localhost:51260/home.html");
@@ -31,7 +31,7 @@ app.controller("loginCTRL", ["$scope", "$http", function ($scope, $http) {
                     }).then(
                         function (res) {
                             console.log("Creado ID para la nueva empresa");
-                            localStorage.setItem("empresaID", res.data[0].id);
+                            localStorage.setItem("empresaID", res.data.id);
                             location.replace("http://localhost:51260/home.html");
                         }
                     );

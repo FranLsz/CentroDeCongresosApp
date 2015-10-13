@@ -1,5 +1,5 @@
 ﻿//Comprobacion de que tenemos un nombre de empresa
-if (!localStorage.getItem("empresa")) {
+if (!localStorage.getItem("empresa") || !localStorage.getItem("empresaID")) {
     location.replace("http://localhost:51260");
 }
 
